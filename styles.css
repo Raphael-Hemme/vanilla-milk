@@ -1,0 +1,92 @@
+/* latin-ext */
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pacifico/v17/FwZY7-Qmy14u9lezJ-6J6MmTpA.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pacifico/v17/FwZY7-Qmy14u9lezJ-6H6Mk.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-family: 'Pacifico', sans-serif;
+  font-size: 3rem;
+  font-weight: 300;
+}
+
+p {
+  color: gray;
+}
+
+#vanilla-span {
+  color: rgb(146, 58, 146);
+}
+
+#milk-span {
+  color: rgb(219, 215, 154);
+}
+
+main {
+  text-align: center;
+}
+
+.list-container {
+  display: flex;
+  justify-content: center;
+  min-height: 200px;
+  min-width: 70%;
+  border-radius: 0.5rem;
+  border: 1px solid lightgray;
+  margin: 1rem;
+}
+
+.add-task-container {
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  min-width: 70%;
+  border-radius: 0.5rem;
+  border: 1px solid lightgray;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+button {
+  border: 1px solid lightgray;
+  border-radius: 50%;
+  color: rgb(146, 58, 146);
+  background-color: lightgray;
+  margin-left: 0.5rem;
+}
+
+input {
+  border: 1px solid lightgray;
+  border-radius: 2rem;
+  margin-right: 0.5rem;
+}
+
+input:focus,
+button:focus {
+  outline: none !important;
+  border: 1px solid rgb(146, 58, 146);
+}
+
