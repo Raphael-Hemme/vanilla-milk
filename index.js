@@ -1,9 +1,48 @@
-
+// References to DOM elements
 const addTaskButton = document.getElementById('add-task-button');
 const taskInput = document.getElementById('input-task');
 const listContainer = document.getElementById('list-container')
 
-const addTask = () => {
+// Set up basic data structure for storage of lists in local storage - no intention for DB use at this point.
+let taskListData = []
+
+const addTaskToTaskListData = () => {
+  // Create data object for task with id and save it to the taskListData as id: {description: description, complete: bool}
+  let currentId = Math.floor(Math.random() * 1000000000000).toString();
+  let currentDescription = taskInput.value;
+  taskListData.push({
+    'id': currentId,
+    'description': currentDescription,
+    'completed': false
+  });
+  return taskListData[taskListData.length -1];
+  }
+
+const handleCompleteTaskButton = (e) => {
+  let selectedDomTask = e.target.parentNode.parentNode.parentNode;
+  let selectedTaskId = selectedDomTask.id;
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  if (currentIndex !== -1) {
+    if (taskListData[currentIndex].completed === false) {
+      taskListData[currentIndex].completed = true;
+      selectedDomTask.className = 'completed-task';
+    } else {
+      taskListData[currentIndex].completed = false;
+      selectedDomTask.className = 'active-task';
+    }
+  }
+} 
+
+const handleDeleteTaskButton = (e) => {
+  let selectedDomTask = e.target.parentNode.parentNode.parentNode;
+  let selectedTaskId = selectedDomTask.id;
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  taskListData.splice([currentIndex])
+  const parentOfSelectedTask = selectedDomTask.parentNode;
+  parentOfSelectedTask.removeChild(selectedDomTask);
+} 
+
+const addTaskToDom = (currTask) => {
   // Get value from input field, create lable for the new task and set its class
   let currentDescription = taskInput.value;
   let newTaskLable = document.createElement('span');
@@ -20,11 +59,13 @@ const addTask = () => {
   let deleteTaskButton = document.createElement('button');
   deleteTaskButton.innerHTML = '<i class="far fa-trash-alt"></i>';
   deleteTaskButton.setAttribute('class', 'delete-task-button');
+  deleteTaskButton.addEventListener('click', handleDeleteTaskButton);
 
   // Create complete button and set its class
   let completeTaskButton = document.createElement('button');
   completeTaskButton.innerHTML = '<i class="fas fa-check"></i>';
   completeTaskButton.setAttribute('class', 'complete-task-button');
+  completeTaskButton.addEventListener('click', handleCompleteTaskButton);
 
   // Create taskControlContainer, insert the buttons into it and add a class
   let taskControlContainer = document.createElement('span');
@@ -38,13 +79,20 @@ const addTask = () => {
   newTask.appendChild(newTaskLable);
   newTask.appendChild(taskControlContainer)
   newTask.setAttribute('class', 'active-task');
+  newTask.setAttribute('id', currTask.id);
 
-  // Append the whole new task to the list
+  // Append the whole new task to the list and reset the input field
   listContainer.appendChild(newTask);
   taskInput.value = '';
 }
 
-addTaskButton.addEventListener('click', addTask);
+const addTaskToDataAndDom = () => {
+  let currentTask = addTaskToTaskListData();
+  addTaskToDom(currentTask);
+  console.log(taskListData);
+}
+
+addTaskButton.addEventListener('click', addTaskToDataAndDom);
 
 
 

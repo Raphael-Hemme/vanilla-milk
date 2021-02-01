@@ -87,7 +87,7 @@ button {
   justify-self: end;
   border: 1px solid lightgray;
   border-radius: 50%;
-  color: rgb(57, 131, 60);
+  color: rgb(66, 66, 66);
   background-color: lightgray;
   margin: 0rem 0.5rem 0rem 0.5rem;
   min-height: 2rem;
@@ -141,6 +141,12 @@ footer {
 
 .active-task {
   background-color: rgb(240, 240, 240);
+  color: rgb(66, 66, 66);
+  height: auto;
+}
+
+.completed-task {
+  background-color: rgb(180, 180, 180);
   color: rgb(66, 66, 66);
   height: auto;
 }
