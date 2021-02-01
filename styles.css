@@ -21,17 +21,13 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.full-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 98%;
+  height: 100vh;
   width: 100%;
-  margin-bottom: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(66, 66, 66);
 }
 
 h1 {
@@ -49,7 +45,7 @@ p {
 }
 
 #milk-span {
-  color: rgb(219, 215, 154);
+  color: rgb(240, 240, 240);
 }
 
 main {
@@ -118,3 +114,5 @@ footer {
   bottom: 0;
   font-size: 0.5rem;
 }
+
+/*rgb(238, 233, 161);*/
