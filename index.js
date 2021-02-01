@@ -19,6 +19,7 @@ const addTaskToTaskListData = () => {
   }
 
 const handleCompleteTaskButton = (e) => {
+  // This identification part below (the three variable initializations) is repeated in all functions button handlers and should be refactored into a separate function later on. 
   let selectedDomTask = e.target.parentNode.parentNode.parentNode;
   let selectedTaskId = selectedDomTask.id;
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
@@ -30,6 +31,57 @@ const handleCompleteTaskButton = (e) => {
       taskListData[currentIndex].completed = false;
       selectedDomTask.className = 'active-task';
     }
+  }
+} 
+
+const handleSaveOnEditButton = (selectedDomTask, selectedTaskId, currentIndex) => {
+  let currentTaskControllContainer = selectedDomTask.lastChild;
+  console.log('setting currentTaskControllContainer ', currentTaskControllContainer)
+  const currInputId = `${selectedTaskId}-input`;
+  const newInputElement = document.getElementById(currInputId);
+  const newInputElementValue = newInputElement.value;
+  taskListData[currentIndex].description = newInputElementValue;
+  let editedTaskLable = document.createElement('span');
+  let editedTaskDescription = document.createTextNode(taskListData[currentIndex].description);
+  editedTaskLable.appendChild(editedTaskDescription);
+  editedTaskLable.setAttribute('class', 'active-task-lable');
+  selectedDomTask.insertBefore(editedTaskLable, newInputElement);
+  selectedDomTask.removeChild(newInputElement);
+  const currSaveButtonId = `${selectedTaskId}-saveButton`;
+  console.log(currSaveButtonId);
+  const currSaveButton = document.getElementById(currSaveButtonId);
+  selectedDomTask.removeChild(currSaveButton);
+  currentTaskControllContainer.classList.toggle('hide');
+}
+
+
+const handleEditTaskButton = (e) => {
+  // This identification part below (the three variable initializations) is repeated in all functions button handlers and should be refactored into a separate function later on. 
+  let selectedDomTask = e.target.parentNode.parentNode.parentNode;
+  let selectedTaskId = selectedDomTask.id;
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  if (currentIndex !== -1) {
+    let currentTaskData = taskListData[currentIndex];
+    let currentLable = selectedDomTask.firstChild;
+
+    let currentTaskControllContainer = selectedDomTask.lastChild;
+    console.log('setting currentTaskControllContainer ', currentTaskControllContainer)
+    
+    selectedDomTask.removeChild(currentLable)
+
+    let editInputField = document.createElement('input');
+    editInputField.setAttribute('id', `${selectedTaskId}-input`);
+    editInputField.value = currentTaskData.description;
+    selectedDomTask.insertBefore(editInputField, selectedDomTask.firstChild)
+
+    let saveTaskButton = document.createElement('button');
+    saveTaskButton.innerHTML = '<i class="far fa-save"></i>';
+    saveTaskButton.setAttribute('class', 'save-on-edit-task-button');
+    saveTaskButton.setAttribute('id', `${selectedTaskId}-saveButton`);
+    saveTaskButton.addEventListener('click', function () {handleSaveOnEditButton(selectedDomTask, selectedTaskId, currentIndex)});
+    selectedDomTask.insertBefore(saveTaskButton, selectedDomTask.lastChild)
+    currentTaskControllContainer.classList.toggle('hide');
+    console.log(currentTaskControllContainer.className);
   }
 } 
 
@@ -54,6 +106,7 @@ const addTaskToDom = (currTask) => {
   let editTaskButton = document.createElement('button');
   editTaskButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
   editTaskButton.setAttribute('class', 'edit-task-button');
+  editTaskButton.addEventListener('click', handleEditTaskButton);
 
   // Create delete button and set its class
   let deleteTaskButton = document.createElement('button');

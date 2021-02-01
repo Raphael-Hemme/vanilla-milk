@@ -169,10 +169,19 @@ footer {
   border: 1px solid rgb(150, 135, 0);
 }
 
+.save-on-edit-task-button {
+  color:rgb(150, 135, 0);
+  border: 1px solid rgb(150, 135, 0);
+}
+
 .delete-task-button:hover,
 .delete-task-button:focus  {
   color:rgb(216, 16, 16);
   border: 1px solid rgb(216, 16, 16);
+}
+
+.hide {
+  display: none;
 }
 
 /*rgb(236, 232, 172);*/
