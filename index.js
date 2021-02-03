@@ -3,6 +3,13 @@ const addTaskButton = document.getElementById('add-task-button');
 const taskInput = document.getElementById('input-task');
 const listContainer = document.getElementById('list-container')
 
+// Declare strings with the Fontawesome icon elements to use in createAnyButton string
+const iconEditTaskButton = '<i class="fas fa-pencil-alt"></i>';
+const iconSaveOnEditTaskButton = '<i class="far fa-save"></i>';
+const iconDeleteTaskButton = '<i class="far fa-trash-alt"></i>';
+const iconCompleteTaskButton = '<i class="fas fa-check"></i>';
+
+
 // Set up basic data structure for storage of lists in local storage - no intention for DB use at this point.
 let taskListData = []
 
@@ -18,9 +25,22 @@ const addTaskToTaskListData = () => {
   return taskListData[taskListData.length -1];
   }
 
+// Declarations of the individual button event handlers (except the original addTask button, which currently is the all encompassing)
+
+const determineDomTaskForClickedButton = (evt) => {
+  let selectedTarget = evt.target;
+  let selectedDomTask;
+  if (selectedTarget.nodeName === 'BUTTON') {
+    selectedDomTask = evt.target.parentNode.parentNode;
+  } else {
+    selectedDomTask = evt.target.parentNode.parentNode.parentNode;
+  }
+  return selectedDomTask;
+} 
+
 const handleCompleteTaskButton = (e) => {
   // This identification part below (the three variable initializations) is repeated in all functions button handlers and should be refactored into a separate function later on. 
-  let selectedDomTask = e.target.parentNode.parentNode.parentNode;
+  let selectedDomTask = determineDomTaskForClickedButton(e);
   let selectedTaskId = selectedDomTask.id;
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
   if (currentIndex !== -1) {
@@ -34,9 +54,27 @@ const handleCompleteTaskButton = (e) => {
   }
 } 
 
+// There is a bug somewhere in here that sometimes (not yet understood the pattern) leads to
+// a removeChild of the whole listContainer Element instead of the selectedTask.
+// But not entirely consistantly. -> Refactor to address the child via the id instead of
+// DOM traversal might be a solution.
+// Edit: The problem is that if you click on the button lable (the font awesome logo) the lable is
+// the e.taget while I assumed the button to be the e.target. (that also explaines the strange 
+// additional .parentNode that was neccessary to get to the whole task element.)
+
+const handleDeleteTaskButton = (e) => {
+  let selectedDomTask = determineDomTaskForClickedButton(e);
+  console.log('selectedDomTask: ', selectedDomTask);
+  let selectedTaskId = selectedDomTask.id;
+  console.log(selectedTaskId)
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  taskListData.splice([currentIndex]);
+  const listContainer = document.getElementById('list-container');
+  listContainer.removeChild(selectedDomTask);
+} 
+
 const handleSaveOnEditButton = (selectedDomTask, selectedTaskId, currentIndex) => {
   let currentTaskControllContainer = selectedDomTask.lastChild;
-  console.log('setting currentTaskControllContainer ', currentTaskControllContainer)
   const currInputId = `${selectedTaskId}-input`;
   const newInputElement = document.getElementById(currInputId);
   const newInputElementValue = newInputElement.value;
@@ -48,16 +86,14 @@ const handleSaveOnEditButton = (selectedDomTask, selectedTaskId, currentIndex) =
   selectedDomTask.insertBefore(editedTaskLable, newInputElement);
   selectedDomTask.removeChild(newInputElement);
   const currSaveButtonId = `${selectedTaskId}-saveButton`;
-  console.log(currSaveButtonId);
   const currSaveButton = document.getElementById(currSaveButtonId);
   selectedDomTask.removeChild(currSaveButton);
   currentTaskControllContainer.classList.toggle('hide');
 }
 
-
 const handleEditTaskButton = (e) => {
   // This identification part below (the three variable initializations) is repeated in all functions button handlers and should be refactored into a separate function later on. 
-  let selectedDomTask = e.target.parentNode.parentNode.parentNode;
+  let selectedDomTask = determineDomTaskForClickedButton(e);
   let selectedTaskId = selectedDomTask.id;
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
   if (currentIndex !== -1) {
@@ -85,14 +121,16 @@ const handleEditTaskButton = (e) => {
   }
 } 
 
-const handleDeleteTaskButton = (e) => {
-  let selectedDomTask = e.target.parentNode.parentNode.parentNode;
-  let selectedTaskId = selectedDomTask.id;
-  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
-  taskListData.splice([currentIndex])
-  const parentOfSelectedTask = selectedDomTask.parentNode;
-  parentOfSelectedTask.removeChild(selectedDomTask);
-} 
+// Create any button, by providing its functionality (for injecting it as part of variable and class names etc.), set its class and add the respective event listener.
+const createAnyButton = (functionality, functionalityFunction) => {
+  let currFaIcon = `icon${functionality}TaskButton`;
+  let currTaskButton = document.createElement('button');
+  currTaskButton.innerHTML = eval(currFaIcon);
+  currTaskButton.setAttribute('class', `${functionality.toLowerCase()}-task-button`);
+  currTaskButton.addEventListener('click', functionalityFunction);
+  return(currTaskButton);
+}
+
 
 const addTaskToDom = (currTask) => {
   // Get value from input field, create lable for the new task and set its class
@@ -102,23 +140,10 @@ const addTaskToDom = (currTask) => {
   newTaskLable.appendChild(newTaskDescription);
   newTaskLable.setAttribute('class', 'active-task-lable');
 
-  // Create edit button and set its class
-  let editTaskButton = document.createElement('button');
-  editTaskButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-  editTaskButton.setAttribute('class', 'edit-task-button');
-  editTaskButton.addEventListener('click', handleEditTaskButton);
-
-  // Create delete button and set its class
-  let deleteTaskButton = document.createElement('button');
-  deleteTaskButton.innerHTML = '<i class="far fa-trash-alt"></i>';
-  deleteTaskButton.setAttribute('class', 'delete-task-button');
-  deleteTaskButton.addEventListener('click', handleDeleteTaskButton);
-
-  // Create complete button and set its class
-  let completeTaskButton = document.createElement('button');
-  completeTaskButton.innerHTML = '<i class="fas fa-check"></i>';
-  completeTaskButton.setAttribute('class', 'complete-task-button');
-  completeTaskButton.addEventListener('click', handleCompleteTaskButton);
+  // Create edit buttons for edit, delete and complete
+  let editTaskButton = createAnyButton('Edit', handleEditTaskButton);
+  let deleteTaskButton = createAnyButton('Delete', handleDeleteTaskButton);
+  let completeTaskButton = createAnyButton('Complete', handleCompleteTaskButton);
 
   // Create taskControlContainer, insert the buttons into it and add a class
   let taskControlContainer = document.createElement('span');
@@ -146,8 +171,6 @@ const addTaskToDataAndDom = () => {
 }
 
 addTaskButton.addEventListener('click', addTaskToDataAndDom);
-
-
 
 /* // generate date and instert copyright notice into the footer:
 const addCopyrightNote = () => {
