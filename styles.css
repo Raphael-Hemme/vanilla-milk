@@ -152,7 +152,8 @@ footer {
 }
 
 .delete-task-button,
-.edit-task-button
+.delete-list-button,
+.edit-task-button,
 .complete-task-button {
   color: rgb(66, 66, 66);
 }
@@ -175,7 +176,9 @@ footer {
 }
 
 .delete-task-button:hover,
-.delete-task-button:focus  {
+.delete-task-button:focus,
+.delete-list-button:hover,
+.delete-list-button:focus  {
   color:rgb(216, 16, 16);
   border: 1px solid rgb(216, 16, 16);
 }
