@@ -44,6 +44,13 @@ const handleDeleteTaskButton = (selectedTaskId) => {
   updateDomTaskList();
 } 
 
+const handleCompleteTaskButton = (selectedTaskId) => {
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  console.log(currentIndex)
+  taskListData[currentIndex].completed = !taskListData[currentIndex].completed;
+  updateDomTaskList();
+} 
+
 
 const handleFunctionalitySelectionAndCallThatFunction = (e) => {
   let selectedTarget = e.target;
@@ -64,6 +71,10 @@ const handleFunctionalitySelectionAndCallThatFunction = (e) => {
       console.log(selectedTaskId);
       handleDeleteTaskButton(selectedTaskId);
       break;
+      case ('Complete'):
+        console.log(selectedTaskId);
+        handleCompleteTaskButton(selectedTaskId);
+        break;
     default:
       console.log('something was clicked')
       break;
@@ -93,7 +104,12 @@ const addTaskToDom = (currTask) => {
   let newTaskLable = document.createElement('span');
   let newTaskDescription = document.createTextNode(currentDescription);
   newTaskLable.appendChild(newTaskDescription);
-  newTaskLable.setAttribute('class', 'active-task-lable');
+  if (currTask.completed) {
+    newTaskLable.setAttribute('class', 'completed-task-lable');
+  } else {
+    newTaskLable.setAttribute('class', 'active-task-lable');
+  };
+  
 
   // Create edit buttons for edit, delete and complete
   let editTaskButton = createAnyButton('Edit', currId);
@@ -111,7 +127,11 @@ const addTaskToDom = (currTask) => {
   let newTask = document.createElement('span');
   newTask.appendChild(newTaskLable);
   newTask.appendChild(taskControlContainer)
-  newTask.setAttribute('class', `active-task`);
+  if (currTask.completed) {
+    newTask.setAttribute('class', `completed-task`);
+  } else {
+    newTask.setAttribute('class', `active-task`);
+  };
   newTask.setAttribute('id', currTask.id);
 
   // Append the whole new task to the list and clear the input field
