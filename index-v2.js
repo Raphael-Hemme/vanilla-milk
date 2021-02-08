@@ -36,26 +36,79 @@ const addTaskToTaskListData = () => {
   }
 
 
-// Handler functions for task-buttons (edit, complete, delete)
+// Create any button, by providing its functionality (for injecting it as part of variable and class names etc.), set its class and add the respective event listener.
+const createAnyButton = (functionality, currId) => {
+  let currFaIcon = `icon${functionality}TaskButton`;
+  let currTaskButton = document.createElement('button');
+  currTaskButton.innerHTML = eval(currFaIcon);
+  currTaskButton.setAttribute('class', `${functionality.toLowerCase()}-task-button`);
+  currTaskButton.setAttribute('id', `${functionality.toLowerCase()}-${currId}-button`)
+  return(currTaskButton);
+}
+
+
+//////// Handler functions for task-buttons (edit, complete, delete) ////////
 const handleDeleteTaskButton = (selectedTaskId) => {
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
-  console.log(currentIndex)
   taskListData.splice([currentIndex], 1);
   updateDomTaskList();
 } 
 
 const handleCompleteTaskButton = (selectedTaskId) => {
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
-  console.log(currentIndex)
   taskListData[currentIndex].completed = !taskListData[currentIndex].completed;
   updateDomTaskList();
-} 
+}
 
+const handleEditTaskButton = (selectedTaskId, selectedDomTask) => {
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  let currentTaskData = taskListData[currentIndex];
+
+  // Identify task Lable and toggle its CSS class so 'display' is set to 'none'
+  let taskLable = selectedDomTask.firstChild;
+  taskLable.classList.toggle('hide');
+
+  // Create input field, set its value to the value of the lable and insert input field where lable was before
+  let editInputField = document.createElement('input');
+  editInputField.setAttribute('id', `${selectedTaskId}-input`);
+  editInputField.value = currentTaskData.description;
+  selectedDomTask.insertBefore(editInputField, selectedDomTask.lastChild);
+
+  // Identify container span for all the task control buttons and toggle its CSS class so 'display' is set to 'none'
+  let currTaskControlContainer = selectedDomTask.lastChild;
+  currTaskControlContainer.classList.toggle('hide');
+
+  // Create save button and insert it into the task span after the input field;
+  let currSaveButton = createAnyButton('SaveOnEdit', selectedTaskId);
+  selectedDomTask.insertBefore(currSaveButton, selectedDomTask.lastChild);
+}
+
+const handleSaveOnEdit = (selectedTaskId, selectedDomTask) => {
+  let currEditSaveButton = document.getElementById(`saveonedit-${selectedTaskId}-button`)
+  let currEditInput = document.getElementById(`${selectedTaskId}-input`)
+  console.log(currEditInput)
+  let currEditInputValue = currEditInput.value;
+  let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
+  taskListData[currentIndex].description = currEditInputValue;
+
+  //remove the input field and saveOnEdit Button again.
+  selectedDomTask.removeChild(currEditInput);
+  selectedDomTask.removeChild(currEditSaveButton);
+
+  updateDomTaskList();
+};
 
 const handleFunctionalitySelectionAndCallThatFunction = (e) => {
   let selectedTarget = e.target;
-  let selectedDomTask, selectedTaskId, buttonFunctionality;
-  if (selectedTarget.nodeName === 'BUTTON') {
+  let selectedDomTask = {};
+  let selectedTaskId, buttonFunctionality;
+
+  if (selectedTarget.nodeName === 'BUTTON' && selectedTarget.id.split('-')[0] === 'saveonedit') {
+    selectedDomTask = e.target.parentNode;
+  } else if (selectedTarget.nodeName === 'I' && selectedTarget.parentNode.id.split('-')[0] === 'saveonedit') {
+    selectedTarget = e.target.parentNode;
+    selectedDomTask = e.target.parentNode.parentNode;
+  } else if (selectedTarget.nodeName === 'BUTTON') {
     selectedDomTask = e.target.parentNode.parentNode;
   } else if (selectedTarget.nodeName === 'I') {
     selectedTarget = e.target.parentNode;
@@ -63,38 +116,31 @@ const handleFunctionalitySelectionAndCallThatFunction = (e) => {
   } else {
     console.log('Got something else')
   }
-  selectedTaskId = selectedDomTask.id
+  if (selectedDomTask.id) selectedTaskId = selectedDomTask.id;
   buttonFunctionality = selectedTarget.id.split('-')[0];
 //  return [selectedDomTask, selectedTaskId, buttonFunctionality];
   switch (buttonFunctionality) {
-    case ('Delete'):
+    case ('delete'):
       console.log(selectedTaskId);
       handleDeleteTaskButton(selectedTaskId);
       break;
-      case ('Complete'):
-        console.log(selectedTaskId);
-        handleCompleteTaskButton(selectedTaskId);
-        break;
+    case ('complete'):
+      console.log(selectedTaskId);
+      handleCompleteTaskButton(selectedTaskId);
+      break;
+    case ('edit'):
+      console.log(selectedTaskId);
+      handleEditTaskButton(selectedTaskId, selectedDomTask);
+      break;
+    case ('saveonedit'):
+      console.log(selectedTaskId);
+      handleSaveOnEdit(selectedTaskId, selectedDomTask);
+      break;
     default:
-      console.log('something was clicked')
+      console.log(`You clicked on ${e.target}`)
       break;
   }
 } 
-
-
-
-
-
-
-// Create any button, by providing its functionality (for injecting it as part of variable and class names etc.), set its class and add the respective event listener.
-const createAnyButton = (functionality, currId) => {
-  let currFaIcon = `icon${functionality}TaskButton`;
-  let currTaskButton = document.createElement('button');
-  currTaskButton.innerHTML = eval(currFaIcon);
-  currTaskButton.setAttribute('class', `${functionality.toLowerCase()}-task-button`);
-  currTaskButton.setAttribute('id', `${functionality}-${currId}`)
-  return(currTaskButton);
-}
 
 
 const addTaskToDom = (currTask) => {
