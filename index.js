@@ -54,13 +54,7 @@ const handleCompleteTaskButton = (e) => {
   }
 } 
 
-// There is a bug somewhere in here that sometimes (not yet understood the pattern) leads to
-// a removeChild of the whole listContainer Element instead of the selectedTask.
-// But not entirely consistantly. -> Refactor to address the child via the id instead of
-// DOM traversal might be a solution.
-// Edit: The problem is that if you click on the button lable (the font awesome logo) the lable is
-// the e.taget while I assumed the button to be the e.target. (that also explaines the strange 
-// additional .parentNode that was neccessary to get to the whole task element.)
+// I should also remove the event listeners before removing the respective task to prevent memory bloat. Get to it later.
 
 const handleDeleteTaskButton = (e) => {
   let selectedDomTask = determineDomTaskForClickedButton(e);
@@ -74,7 +68,7 @@ const handleDeleteTaskButton = (e) => {
 } 
 
 const handleSaveOnEditButton = (selectedDomTask, selectedTaskId, currentIndex) => {
-  let currentTaskControllContainer = selectedDomTask.lastChild;
+  const currentTaskControllContainer = selectedDomTask.lastChild;
   const currInputId = `${selectedTaskId}-input`;
   const newInputElement = document.getElementById(currInputId);
   const newInputElementValue = newInputElement.value;
@@ -101,7 +95,6 @@ const handleEditTaskButton = (e) => {
     let currentLable = selectedDomTask.firstChild;
 
     let currentTaskControllContainer = selectedDomTask.lastChild;
-    console.log('setting currentTaskControllContainer ', currentTaskControllContainer)
     
     selectedDomTask.removeChild(currentLable)
 
@@ -114,10 +107,9 @@ const handleEditTaskButton = (e) => {
     saveTaskButton.innerHTML = '<i class="far fa-save"></i>';
     saveTaskButton.setAttribute('class', 'save-on-edit-task-button');
     saveTaskButton.setAttribute('id', `${selectedTaskId}-saveButton`);
-    saveTaskButton.addEventListener('click', function () {handleSaveOnEditButton(selectedDomTask, selectedTaskId, currentIndex)});
+    saveTaskButton.addEventListener('click', () => {handleSaveOnEditButton(selectedDomTask, selectedTaskId, currentIndex)});
     selectedDomTask.insertBefore(saveTaskButton, selectedDomTask.lastChild)
     currentTaskControllContainer.classList.toggle('hide');
-    console.log(currentTaskControllContainer.className);
   }
 } 
 
