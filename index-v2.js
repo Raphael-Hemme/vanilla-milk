@@ -11,7 +11,10 @@
 // References to DOM elements
 const addTaskButton = document.getElementById('add-task-button');
 const taskInput = document.getElementById('input-task');
-const listContainer = document.getElementById('list-container')
+const listContainer = document.getElementById('list-container');
+
+const deleteListButton = document.getElementById('delete-list-button');
+
 
 // Declare strings with the Fontawesome icon elements to use in createAnyButton string
 const iconEditTaskButton = '<i class="fas fa-pencil-alt"></i>';
@@ -20,7 +23,7 @@ const iconDeleteTaskButton = '<i class="far fa-trash-alt"></i>';
 const iconCompleteTaskButton = '<i class="fas fa-check"></i>';
 
 
-// Set up basic data structure for storage of lists in local storage - no intention for DB use at this point.
+////// Set up basic data structure for storage of lists in local storage - no intention for DB use at this point.
 let taskListData = []
 
 const addTaskToTaskListData = () => {
@@ -35,6 +38,25 @@ const addTaskToTaskListData = () => {
   return taskListData[taskListData.length -1];
   }
 
+
+////// Set up local storage loading and saving
+document.addEventListener('DOMContentLoaded', () => {
+  let currentStorage = JSON.parse(window.localStorage.getItem('vanilla-milk-list'))
+  if (currentStorage) {
+    currentStorage.map(el => taskListData.push(el))
+  }
+  updateDomTaskList();
+})
+
+const saveTaskListDataToLocalStorage = () => {
+  window.localStorage.setItem('vanilla-milk-list', JSON.stringify(taskListData));
+}
+
+const handleDeleteList = () => {
+  window.localStorage.clear();
+  taskListData = [];
+  updateDomTaskList();
+}
 
 // Create any button, by providing its functionality (for injecting it as part of variable and class names etc.), set its class and add the respective event listener.
 const createAnyButton = (functionality, currId) => {
@@ -51,12 +73,14 @@ const createAnyButton = (functionality, currId) => {
 const handleDeleteTaskButton = (selectedTaskId) => {
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
   taskListData.splice([currentIndex], 1);
+  saveTaskListDataToLocalStorage();
   updateDomTaskList();
 } 
 
 const handleCompleteTaskButton = (selectedTaskId) => {
   let currentIndex = taskListData.findIndex(el => el.id === selectedTaskId);
   taskListData[currentIndex].completed = !taskListData[currentIndex].completed;
+  saveTaskListDataToLocalStorage();
   updateDomTaskList();
 }
 
@@ -95,6 +119,7 @@ const handleSaveOnEdit = (selectedTaskId, selectedDomTask) => {
   selectedDomTask.removeChild(currEditInput);
   selectedDomTask.removeChild(currEditSaveButton);
 
+  saveTaskListDataToLocalStorage();
   updateDomTaskList();
 };
 
@@ -201,11 +226,14 @@ const updateDomTaskList = () => {
 
 const handleAddButton = () => {
   let currentTask = addTaskToTaskListData();
+  saveTaskListDataToLocalStorage();
   updateDomTaskList();
 }
 
 addTaskButton.addEventListener('click', handleAddButton);
 listContainer.addEventListener('click', handleFunctionalitySelectionAndCallThatFunction)
+
+deleteListButton.addEventListener('click', handleDeleteList);
 
 /* // generate date and instert copyright notice into the footer:
 const addCopyrightNote = () => {
