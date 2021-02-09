@@ -6,27 +6,34 @@
     <link href="./styles.css" rel="stylesheet" type="text/css" />
     <script src="./index-v2.js" type="text/javascript" defer></script>
   </head>
+
   <body>
-      <header>
+    <div class="app">
+
+      <header class="header">
         <h1>
           <span id="vanilla-span">Vanilla</span>
           <span id="milk-span"> Milk</span>
         </h1>
       </header>
+
       <main>
         <section id="list-container">
   
         </section>
-        <section class="input-and-control-container">
+      </main>
+      <section class="input-and-control-container">
           <div class="add-task-container">
             <input type="text" id="input-task" /><button id="add-task-button"><i class="fas fa-plus"></i></button>
           </div>
           <div class="delete-list-container">
             <button id="delete-list-button" class="delete-list-button"><i class="far fa-trash-alt"></i></button>
           </div>
-        </div>
-       
-      </main>
+      </section>
+
+      
       <!--<footer></footer>-->
+    </div>
+      
   </body>
 </html>

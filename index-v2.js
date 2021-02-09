@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentStorage.map(el => taskListData.push(el))
   }
   updateDomTaskList();
+  taskInput.focus();
 })
 
 const saveTaskListDataToLocalStorage = () => {
@@ -206,7 +207,7 @@ const addTaskToDom = (currTask) => {
   newTask.setAttribute('id', currTask.id);
 
   // Append the whole new task to the list and clear the input field
-  listContainer.appendChild(newTask);
+  listContainer.insertBefore(newTask, listContainer.firstChild);
   taskInput.value = '';
 }
 
@@ -230,7 +231,15 @@ const handleAddButton = () => {
   updateDomTaskList();
 }
 
+////// Event Listeners
+
 addTaskButton.addEventListener('click', handleAddButton);
+taskInput.addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addTaskButton.click();
+  }
+})
 listContainer.addEventListener('click', handleFunctionalitySelectionAndCallThatFunction)
 
 deleteListButton.addEventListener('click', handleDeleteList);
