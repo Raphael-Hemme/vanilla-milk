@@ -39,10 +39,10 @@ body {
   height: 95%;
   width: 80%;
   border: 1px solid rgb(66, 66, 66);
-  background-color: rgb(212, 204, 86);
+  background-color: rgb(228, 221, 128);
   border-radius: 2rem;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr ;
   grid-template-rows: 1fr 9fr 1fr;
   grid-template-areas: 
     "appHeader"
@@ -64,7 +64,7 @@ h1 {
 }
 
 #vanilla-span {
-  color:rgb(236, 232, 172);
+  color:rgb(241, 238, 190);
 }
 
 #milk-span {
@@ -75,26 +75,19 @@ main {
   grid-area: listContainer;
   overflow: auto;
   padding: 0;
-  background-color: rgb(236, 232, 172);
+  background-color: rgb(241, 238, 190);
 }
 
 .input-and-control-container {
-  grid-area: appInputAndControlls;
-  margin: 1.5% 5% 1.5% 5%;
-}
-
-.add-task-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  grid-area: appInputAndControlls;
+  margin: 1.5% 2% 1.5% 2%;
+  padding: 1.5% 0% 1.5% 0%;
 }
 
-.delete-list-container {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-}
+
 
 button {
   border: 1px solid lightgray;
@@ -108,6 +101,11 @@ button {
   text-align: center;
 }
 
+.delete-list-button, 
+.add-task-button {
+  margin: 0rem 1rem 0rem 1rem;
+}
+
 input {
   border: 1px solid lightgray;
   border-radius: 0.4rem;
@@ -119,19 +117,16 @@ input {
   padding: 0.5rem 1rem 0.5rem 1rem; 
 }
 
-input:focus,
-button:focus {
+input:hover,
+input:focus {
   outline: none !important;
-  border: 1px solid rgb(67, 179, 72);
+  border: 1px solid rgb(198, 178, 24);
 }
 
-input:hover {
-  border: 1px solid rgb(67, 179, 72);
-} 
-
-button:hover {
-  border: 1px solid  rgb(67, 179, 72);
-  color: rgb(67, 179, 72);
+button:hover,
+button:focus {
+  border: 1px solid rgb(70, 167, 75);
+  color:rgb(70, 167, 75);
 }
 
 footer {
@@ -155,9 +150,10 @@ footer {
 }
 
 .completed-task {
-  background-color: rgb(180, 180, 180);
-  color: rgb(66, 66, 66);
+  background-color: rgb(231, 231, 231);
+  color: rgb(88, 88, 88);
   /* height: auto; */
+  text-decoration: line-through;
 }
 
 .delete-task-button,
@@ -169,19 +165,19 @@ footer {
 
 .complete-task-button:hover,
 .complete-button:focus {
-  color:rgb(67, 179, 72);
-  border: 1px solid rgb(67, 179, 72);
+  color:rgb(70, 167, 75);
+  border: 1px solid rgb(70, 167, 75);
 }
 
 .edit-task-button:hover,
 .edit-task-button:focus {
-  color:rgb(150, 135, 0);
-  border: 1px solid rgb(150, 135, 0);
+  color:rgb(163, 147, 4);
+  border: 1px solid rgb(163, 147, 4);
 }
 
 .save-on-edit-task-button {
-  color:rgb(150, 135, 0);
-  border: 1px solid rgb(150, 135, 0);
+  color: rgb(70, 167, 75);
+  border: 1px solid rgb(70, 167, 75);
 }
 
 .delete-task-button:hover,
@@ -194,9 +190,9 @@ footer {
 
 .delete-list-button:hover,
 .delete-list-button:focus  {
-  background-color:rgb(190, 60, 60);
-  color:rgb(180, 180, 180);
-  border: 1px solid rgb(190, 60, 60);
+  background-color: rgb(189, 23, 23);
+  color:  rgb(180, 180, 180);
+  border: 1px solid rgb(189, 23, 23);
 }
 
 .hide {

@@ -54,9 +54,11 @@ const saveTaskListDataToLocalStorage = () => {
 }
 
 const handleDeleteList = () => {
-  window.localStorage.clear();
-  taskListData = [];
-  updateDomTaskList();
+  if (confirm('Are you sure you want to delete the entire list?')) {
+    window.localStorage.clear();
+    taskListData = [];
+    updateDomTaskList();
+  };
 }
 
 // Create any button, by providing its functionality (for injecting it as part of variable and class names etc.), set its class and add the respective event listener.
@@ -98,6 +100,7 @@ const handleEditTaskButton = (selectedTaskId, selectedDomTask) => {
   editInputField.setAttribute('id', `${selectedTaskId}-input`);
   editInputField.value = currentTaskData.description;
   selectedDomTask.insertBefore(editInputField, selectedDomTask.lastChild);
+  editInputField.focus();
 
   // Identify container span for all the task control buttons and toggle its CSS class so 'display' is set to 'none'
   let currTaskControlContainer = selectedDomTask.lastChild;
@@ -106,6 +109,12 @@ const handleEditTaskButton = (selectedTaskId, selectedDomTask) => {
   // Create save button and insert it into the task span after the input field;
   let currSaveButton = createAnyButton('SaveOnEdit', selectedTaskId);
   selectedDomTask.insertBefore(currSaveButton, selectedDomTask.lastChild);
+  editInputField.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      currSaveButton.click();
+    }
+  })
 }
 
 const handleSaveOnEdit = (selectedTaskId, selectedDomTask) => {
