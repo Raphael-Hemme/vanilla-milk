@@ -282,6 +282,17 @@ and (min-device-width : 481px) {
     padding: 1.5% 0% 1.5% 0%;
   }
   
+  .input-task-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+  }
+  
+  #input-task {
+    width: 100%;
+  }
+
   button {
     border: 1px solid lightgray;
     border-radius: 50%;

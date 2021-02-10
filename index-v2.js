@@ -58,6 +58,9 @@ const handleDeleteList = () => {
     window.localStorage.clear();
     taskListData = [];
     updateDomTaskList();
+    taskInput.focus();
+  } else {
+    taskInput.focus();
   };
 }
 
