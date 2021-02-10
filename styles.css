@@ -129,6 +129,11 @@ input {
   padding: 0.5rem 1rem 0.5rem 1rem; 
 }
 
+.warning-highlight {
+  border: 1px solid rgb(189, 23, 23);
+  color: rgb(189, 23, 23);
+}
+
 .hide {
   display: none;
 }

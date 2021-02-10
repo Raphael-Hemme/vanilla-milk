@@ -238,9 +238,14 @@ const updateDomTaskList = () => {
 }
 
 const handleAddButton = () => {
-  let currentTask = addTaskToTaskListData();
-  saveTaskListDataToLocalStorage();
-  updateDomTaskList();
+  if (taskInput.value === '') {
+    taskInput.focus();
+  } else {
+    let currentTask = addTaskToTaskListData();
+    saveTaskListDataToLocalStorage();
+    updateDomTaskList();
+  }
+  
 }
 
 ////// Event Listeners
