@@ -48,7 +48,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 1rem;
   border-bottom: 1px solid rgb(170, 170, 170);
   font-size: larger;
 } 
@@ -139,7 +139,7 @@ input {
 /* Phone ------------ */
 
 @media only screen
-and (max-device-width : 480px) {
+and (max-device-width : 1079px) {
 
   body {
     height: 100vh;
@@ -188,23 +188,16 @@ and (max-device-width : 480px) {
   }
 
   button {
-  border: 1px solid lightgray;
-  border-radius: 50%;
-  color: rgb(66, 66, 66);
-  background-color: lightgray;
-  margin: 0rem 0rem 0rem 0.5rem;
-  min-height: 4rem;
-  height: 4rem;
-  min-width: 4rem;
-  text-align: center;
-  }
-
-  #add-task-button,
-  #delete-list-button {
-    min-height: 4rem;
-    min-width: 4rem;
-    font-size: xx-large;
+    border: 1px solid lightgray;
     border-radius: 50%;
+    color: rgb(66, 66, 66);
+    background-color: lightgray;
+    margin: 0rem 0rem 0rem 0.5rem;
+    min-height: 4rem;
+    height: 4rem;
+    min-width: 4rem;
+    text-align: center;
+    font-size: xx-large;
   }
 
   #add-task-button {
@@ -246,20 +239,29 @@ and (max-device-width : 480px) {
     justify-content: center;
   }
   
+  input {
+    border: 1px solid lightgray;
+    border-radius: 1.5rem;
+    margin: 0;
+    width: 80%;
+    min-height: 4rem;
+    color:rgb(66, 66, 66);
+    font-size: larger;
+    padding: 0.5rem 1rem 0.5rem 1rem; 
+  }
+
   #input-task {
     width: 100%;
-    min-height: 4rem;
-    border-radius: 1.5rem;
   }
 }
 
-/* Tablet and up ------------ */
+/* Laptop and up ------------ */
 
 @media only screen
-and (min-device-width : 481px) {
+and (min-device-width : 1080px) {
   
   .app {
-    height: 95%;
+    height: 90%;
     width: 80%;
     border: 1px solid rgb(66, 66, 66);
     background-color: rgb(228, 221, 128);
@@ -331,6 +333,7 @@ and (min-device-width : 481px) {
   }
   
 }
+
 
 /* 
 footer {
