@@ -20,6 +20,7 @@
 html {
   box-sizing: border-box;
 }
+
 *,
 *:before,
 *:after {
@@ -40,6 +41,25 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 10px;
+  padding: 5px;
+  width: 60px;
+  height: 60px;
+  background-color: rgb(66, 66, 66);
+  border-radius: 7px;
+}
+img {
+  width: 100%;
+}
+
 
 p {
   color: gray;
@@ -184,13 +204,20 @@ input {
   .header {
     grid-area: appHeader;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: -4% 0% -4% 0%;
     padding: 0;
+    width: 100%;
   }
-  
+
+  .logo {
+    height: 5rem;
+    width: 5rem;
+  }
+
   h1 {
+    justify-self: center;
     font-family: 'Pacifico', sans-serif;
     font-size: 6rem;
     line-height: 0.9;

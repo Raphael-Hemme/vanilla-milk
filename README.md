@@ -1,7 +1,9 @@
 # Vanilla Milk
 ## Another milk themed task manager in vanilla JavaScript
 
-This is a simple task manager. You can use it to: 
+<img src="https://github.com/Raphael-Hemme/vanilla-milk/blob/main/assets/logo/vanilla-milk.png" alt="The Vanilla Milk Logo" width="300" heiht="300">
+
+This is a simple task manager. You can use it to:
 - add tasks,
 - finish tasks (and mark them as complete),
 - edit tasks and
@@ -18,5 +20,5 @@ A few useful features:
 - leave the site at any point without loosing your tasks (the only content that will not get saved is the content of the input field before you add it to the task list)
 
 If you really need another task manager:  
-**Enjoy Vanilla Milk, have fun and get things done!**
+**Enjoy Vanilla Milk. Have fun and get things done!**
 
