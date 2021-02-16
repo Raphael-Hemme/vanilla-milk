@@ -1,7 +1,7 @@
 # Vanilla Milk
 ## Another milk themed task manager in vanilla JavaScript
 
-![The Vanilla Milk Logo](https://github.com/Raphael-Hemme/vanilla-milk/blob/main/assets/logo/vanilla-milk.png)
+<img src="https://github.com/Raphael-Hemme/vanilla-milk/blob/main/assets/logo/vanilla-milk.png" alt="The Vanilla Milk Logo" width="300" heiht="300">
 
 This is a simple task manager. You can 
 - add tasks,
