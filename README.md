@@ -1,7 +1,7 @@
 # Vanilla Milk
 ## Another milk themed task manager in vanilla JavaScript
 
-This is a simple task manager. You can 
+This is a simple task manager. You can use it to: 
 - add tasks,
 - finish tasks (and mark them as complete),
 - edit tasks and
